@@ -1,0 +1,16 @@
+{
+    "appName": "TroveCountdown",
+    "description": "Allows user to sync a countdown to keep track of when Elder Troves will proc.",
+    "appUrl": "./index.html",
+    "configUrl": "./appconfig.json",
+    "iconUrl": "./trove.png",
+    "defaultWidth": 300,
+    "defaultHeight": 150,
+    "minWidth":100,
+    "minHeight":50,
+    "maxWidth":300,
+    "maxHeight":150,
+    "requestHandlers": [],
+    "activators": [],
+    "permissions": "overlay"
+}

@@ -1,0 +1,83 @@
+<script type="importmap">
+  {
+    "imports": {
+      "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+    }
+  }
+</script>
+
+<style>
+.container {
+  margin: 0 15%;
+}
+.headline {
+  width: 100%;
+  color: #444;
+}
+.zero {
+  background: red;
+}
+</style>
+
+
+<div id="app" class="container">
+  <div class="headline">
+    <h2>
+      Alt1 Trove Countdown
+    </h2>    
+  </div>
+
+  <div class="content" :class="{ zero: isZero }">
+    <p>
+      Set to 360 with enriched ring. 450 without.
+    </p>
+    Custom Timer: <input v-model="timer">
+    <div>
+      {{ remaining }}
+    </div>
+    <button @click="reset">
+      Reset
+    </button>
+  </div>
+</div>
+
+<script type="module">
+  import { createApp } from 'vue'
+
+  createApp({
+    data() {
+      return {
+      	timer: 360,
+        remaining: 360,
+        countingDown: false,
+      }
+    },
+    methods: {
+    	countDownTimer() {
+      	if (this.remaining > 0) {
+        	this.countingDown = true
+        	setTimeout(() => {
+            	this.remaining -= 1
+                this.countDownTimer()
+            }, 1000)
+        } else {
+        	this.countingDown = false
+        }
+      },
+      reset() {
+      	this.remaining = this.timer
+        if (!this.countingDown) {
+        	this.countDownTimer()
+        }
+      }
+    },
+    computed: {
+    	isZero() {
+            return this.remaining === 0;
+      }
+    },
+    created () {
+    	this.countDownTimer()
+    }
+  }).mount('#app')
+</script>
