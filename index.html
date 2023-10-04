@@ -4,33 +4,38 @@
     .container {
     margin: 0 0;
     }
-    .headline {
-    color: #444;
-    }
     .zero {
     background: red;
+    }
+    .buttons button {
+        margin-right: 10px;
     }
 </style>
 
 
 <div id="app" class="container">
-  <div class="headline">
-    <h2>
-      Alt1 Trove Countdown
-    </h2>    
-  </div>
-
-  <div class="content" :class="{ zero: isZero }">
-    <p>
-      Set to 360 with enriched ring. 450 without.
-    </p>
-    Custom Timer: <input v-model="timer">
-    <div>
-      {{ remaining }}
-    </div>
-    <button @click="reset">
-      Reset
-    </button>
+  <div class="container" :class="{ zero: isZero }">    
+    <div class="content">
+        <p>
+          Set to 360 with enriched ring. 450 without.
+        </p>
+        Custom Timer: <input v-model="timer">
+        <div>
+            {{ remaining }}
+        </div>
+        <div class="buttons">
+            <button @click="reset">
+                Reset
+            </button>
+            <button v-if="countingDown" @click="pause">
+                Pause
+            </button>
+            <button v-if="!countingDown" @click="unpause">
+                Unpause
+            </button>
+        </div>
+        
+      </div>
   </div>
 </div>
 
@@ -42,26 +47,35 @@
       return {
       	timer: 360,
         remaining: 360,
-        countingDown: false,
+        countingDown: true,
       }
     },
     methods: {
     	countDownTimer() {
-      	if (this.remaining > 0) {
-        	this.countingDown = true
+      	if (this.remaining > 0 && this.countingDown) {
         	setTimeout(() => {
-            	this.remaining -= 1
-                this.countDownTimer()
+                if (this.countingDown) {
+                    this.remaining -= 1
+                    this.countDownTimer()
+                }
+            	
             }, 1000)
-        } else {
+        } else if (this.remaining <= 0) {
         	this.countingDown = false
         }
       },
       reset() {
       	this.remaining = this.timer
         if (!this.countingDown) {
-        	this.countDownTimer()
+            this.unpause()
         }
+      },
+      pause() {
+        this.countingDown = false
+      },
+      unpause() {
+        this.countingDown = true
+        this.countDownTimer()
       }
     },
     computed: {
